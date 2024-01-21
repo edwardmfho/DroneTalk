@@ -5,12 +5,14 @@ TelloTalk is a Python package that allows you to control your Tello drone using 
 ## Installation
 
 ```bash
+pip install -r requirements.txt
 pip install TelloTalk
-Usage
+```
+
+## Usage
 Import the package and create a new TelloTalk object. Then, use the command method to send commands to your drone.
 
-)
-Commands
+## Commands
 TelloTalk supports a variety of commands, including:
 
 "Take off"
