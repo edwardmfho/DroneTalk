@@ -28,8 +28,6 @@ def maneuver_prompts(command):
 
     """
 
-
-
     text_to_actions = [
     {"role": "system", "content": MANEUVER_INSTRUCTIONS},
     {"role": "user", "content": f"Now listen to the verbal instruction: {command}"}

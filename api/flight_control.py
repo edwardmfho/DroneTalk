@@ -1,4 +1,5 @@
 import logging
+import json
 
 from typing import List, Optional
 from openai import OpenAI
@@ -10,17 +11,17 @@ from api.model.audios import VerbalCommands
 from api.llm.stt.listen import transcribe_audio
 from api.llm.functions.get_actions import get_actions
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.CRITICAL)
 
 
 class Drone:
     def __init__(self, is_dotenv=True, DEBUG=False):
         self.drone = Tello()
+        self.DEBUG = DEBUG
         if is_dotenv:
             load_dotenv()
 
-        if not DEBUG:
-            
+        if not self.DEBUG:
             logging.info('Connecting to Drone...')
             self.connect()
 
@@ -79,12 +80,17 @@ class Drone:
             print(actions)
             command_list = self.prepare_commands(actions)
             
-            for command in command_list:
-                if command.get('distance') is not None:
-                    command['action'](command['distance'])
-                else:
-                    command['action']()
-            return command_list
+            if self.DEBUG is None:
+                for command in command_list:
+                    if command.get('distance') is not None:
+                        command['action'](command['distance'])
+                    else:
+                        command['action']()
+
+            return json.dumps({
+                "status" : 200,
+                "data" : actions}
+                )
     
     
 if __name__ == '__main__':
